@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/round_1"
+    android:backgroundTint="@color/grey_100">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/spacing_4">
+
+        <ImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_marginStart="@dimen/spacing_2"
+            app:layout_constraintBottom_toTopOf="@id/tv_episode_count"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:background="@color/grey_600" />
+
+        <TextView
+            android:id="@+id/tv_episode_count"
+            style="@style/ItemCard.Text.Subtitle.Label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_4"
+            android:drawablePadding="@dimen/spacing_1"
+            app:drawableEndCompat="@drawable/ic_movie_14"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/iv_avatar"
+            app:layout_constraintStart_toStartOf="@id/iv_avatar"
+            app:layout_constraintTop_toBottomOf="@id/iv_avatar"
+            tools:text="1" />
+
+        <TextView
+            style="@style/ItemCard.Text.Title"
+            android:id="@+id/tv_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_avatar"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Pro trunk people marriage guy" />
+
+        <View
+            android:id="@+id/view_state"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            app:layout_constraintStart_toStartOf="@id/tv_name"
+            app:layout_constraintTop_toTopOf="@id/tv_state"
+            app:layout_constraintBottom_toBottomOf="@id/tv_state"
+            android:background="@drawable/oval"
+            tools:backgroundTint="@color/green_500"/>
+
+        <TextView
+            style="@style/ItemCard.Text.Subtitle"
+            android:id="@+id/tv_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/view_state"
+            app:layout_constraintTop_toBottomOf="@id/tv_name"
+            android:layout_marginStart="@dimen/spacing_2"
+            tools:text="Alive"/>
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="6dp"
+            android:layout_height="2dp"
+            app:layout_constraintStart_toEndOf="@id/tv_state"
+            app:layout_constraintTop_toTopOf="@id/tv_state"
+            app:layout_constraintBottom_toBottomOf="@id/tv_state"
+            android:layout_marginStart="@dimen/spacing_2"
+            android:background="@color/black"/>
+
+        <TextView
+            style="@style/ItemCard.Text.Subtitle"
+            android:id="@+id/tv_species"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/view_line"
+            app:layout_constraintTop_toTopOf="@id/tv_state"
+            app:layout_constraintBottom_toBottomOf="@id/tv_state"
+            android:layout_marginStart="@dimen/spacing_2"
+            android:drawablePadding="@dimen/spacing_2"
+            tools:text="Human"
+            tools:drawableEndCompat="@drawable/ic_gender_male_14"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!--    Spacings-->
+    <dimen name="spacing_1">2dp</dimen>
+    <dimen name="spacing_2">4dp</dimen>
+    <dimen name="spacing_3">6dp</dimen>
+    <dimen name="spacing_4">8dp</dimen>
+    <dimen name="spacing_5">12dp</dimen>
+    <dimen name="spacing_6">16dp</dimen>
+    <dimen name="spacing_7">24dp</dimen>
+    <dimen name="spacing_8">32dp</dimen>
+    <dimen name="spacing_9">48dp</dimen>
+    <dimen name="spacing_10">64dp</dimen>
+    
+<!--    Round-->
+    <dimen name="round_1">12dp</dimen>
+    
+<!--    Fonts-->
+    <dimen name="font_title">20sp</dimen>
+    <dimen name="font_subtitle">14sp</dimen>
+    <dimen name="font_text">16sp</dimen>
+
+</resources>

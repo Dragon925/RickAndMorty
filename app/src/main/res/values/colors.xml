@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+<!--    Grey-->
+    <color name="grey_100">#DDDDDD</color>
+    <color name="grey_500">#8A8888</color>
+    <color name="grey_600">#7A7878</color>
+
+<!--    Blue-->
+    <color name="blue_500">#004FC7</color>
+
+<!--    Red-->
+    <color name="red_500">#E10202</color>
+
+<!--    Green-->
+    <color name="green_500">#009E10</color>
+</resources>

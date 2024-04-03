@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search">Поиск</string>
+    <string name="characters">Персонажи</string>
+    <string name="episodes">Епизоды</string>
+    <string name="locations">Локации</string>
+</resources>
