@@ -16,29 +16,14 @@
 
         <ImageView
             android:id="@+id/iv_avatar"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginStart="@dimen/spacing_2"
-            app:layout_constraintBottom_toTopOf="@id/tv_episode_count"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
             tools:background="@drawable/oval"
-            tools:backgroundTint="@color/grey_600" />
-
-        <TextView
-            android:id="@+id/tv_episode_count"
-            style="@style/ItemCard.Text.Subtitle.Label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_4"
-            android:drawablePadding="@dimen/spacing_1"
-            app:drawableEndCompat="@drawable/ic_movie_14"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/iv_avatar"
-            app:layout_constraintStart_toStartOf="@id/iv_avatar"
-            app:layout_constraintTop_toBottomOf="@id/iv_avatar"
-            tools:text="1" />
+            tools:backgroundTint="@color/grey_600"/>
 
         <TextView
             style="@style/ItemCard.Text.Title"
@@ -93,46 +78,6 @@
             android:drawablePadding="@dimen/spacing_2"
             tools:text="Human"
             tools:drawableEndCompat="@drawable/ic_gender_male_14"/>
-
-        <TextView
-            style="@style/ItemCard.Text.Subtitle.Label"
-            android:id="@+id/tv_origin_location_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tv_state"
-            app:layout_constraintStart_toStartOf="@id/tv_name"
-            android:layout_marginTop="@dimen/spacing_4"
-            android:text="@string/origin_location"/>
-
-        <TextView
-            style="@style/ItemCard.Text.Subtitle"
-            android:id="@+id/tv_origin_location"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_2"
-            app:layout_constraintTop_toBottomOf="@id/tv_origin_location_label"
-            app:layout_constraintStart_toStartOf="@id/tv_origin_location_label"
-            tools:text="Interdimensional Cable"/>
-
-        <TextView
-            style="@style/ItemCard.Text.Subtitle.Label"
-            android:id="@+id/tv_last_location_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tv_origin_location"
-            app:layout_constraintStart_toStartOf="@id/tv_origin_location"
-            android:layout_marginTop="@dimen/spacing_4"
-            android:text="@string/last_known_location"/>
-
-        <TextView
-            style="@style/ItemCard.Text.Subtitle"
-            android:id="@+id/tv_last_location"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_2"
-            app:layout_constraintTop_toBottomOf="@id/tv_last_location_label"
-            app:layout_constraintStart_toStartOf="@id/tv_last_location_label"
-            tools:text="Interdimensional Cable"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

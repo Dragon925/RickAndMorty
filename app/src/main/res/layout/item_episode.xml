@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/round_1"
+    android:backgroundTint="@color/grey_100"
+    android:layout_marginBottom="@dimen/spacing_4">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/spacing_4">
+
+        <TextView
+            style="@style/ItemCard.Text.Title"
+            android:id="@+id/tv_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_characters_count"
+            android:layout_marginEnd="@dimen/spacing_4"
+            tools:text="Name"/>
+
+        <TextView
+            style="@style/ItemCard.Text.Subtitle"
+            android:id="@+id/tv_characters_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/bg_counter"
+            android:backgroundTint="?attr/colorPrimary"
+            android:textColor="?attr/colorOnPrimary"
+            app:drawableEndCompat="@drawable/ic_people_14"
+            app:drawableTint="?attr/colorOnPrimary"
+            android:drawablePadding="@dimen/spacing_1"
+            tools:text="10" />
+
+        <TextView
+            style="@style/ItemCard.Text.Subtitle.Label"
+            android:id="@+id/tv_date_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_name"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/spacing_4"
+            android:text="@string/air_date_is"/>
+
+        <TextView
+            style="@style/ItemCard.Text.Subtitle"
+            android:id="@+id/tv_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/tv_date_label"
+            app:layout_constraintStart_toEndOf="@id/tv_date_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/spacing_4"
+            tools:text="Date"/>
+
+        <TextView
+            style="@style/ItemCard.Text.Subtitle.Label"
+            android:id="@+id/tv_episode_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_date"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/spacing_4"
+            android:text="@string/episode_is"/>
+
+        <TextView
+            style="@style/ItemCard.Text.Subtitle"
+            android:id="@+id/tv_episode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/tv_episode_label"
+            app:layout_constraintStart_toEndOf="@id/tv_episode_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/spacing_4"
+            tools:text="Episode"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

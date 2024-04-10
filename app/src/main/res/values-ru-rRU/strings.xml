@@ -4,4 +4,10 @@
     <string name="characters">Персонажи</string>
     <string name="episodes">Епизоды</string>
     <string name="locations">Локации</string>
+    <string name="origin_location">Происхождение</string>
+    <string name="last_known_location">Последнее известное место</string>
+    <string name="dimension_is">Измерение</string>
+    <string name="type_is">Тип</string>
+    <string name="air_date_is">Дата выхода</string>
+    <string name="episode_is">Эпизод</string>
 </resources>

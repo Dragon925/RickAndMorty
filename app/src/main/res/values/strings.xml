@@ -4,4 +4,10 @@
     <string name="characters">Characters</string>
     <string name="episodes">Episodes</string>
     <string name="locations">Locations</string>
+    <string name="origin_location">Origin location</string>
+    <string name="last_known_location">Last known location</string>
+    <string name="dimension_is">Dimension:</string>
+    <string name="type_is">Type:</string>
+    <string name="air_date_is">Air date:</string>
+    <string name="episode_is">Episode:</string>
 </resources>
