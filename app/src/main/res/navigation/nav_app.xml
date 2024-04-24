@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_app"
+    app:startDestination="@id/characters">
+    <fragment
+        android:id="@+id/characters"
+        android:name="com.github.dragon925.rickandmorty.ui.fragments.CharacterListFragment"
+        android:label="@string/characters"
+        tools:layout="@layout/fragment_character_list" >
+        <action
+            android:id="@+id/action_characters_to_characterFragment"
+            app:destination="@id/characterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/locations"
+        android:name="com.github.dragon925.rickandmorty.ui.fragments.LocationListFragment"
+        android:label="fragment_locations_list"
+        tools:layout="@layout/fragment_locations_list" >
+        <action
+            android:id="@+id/action_locations_to_locationFragment"
+            app:destination="@id/locationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/episodes"
+        android:name="com.github.dragon925.rickandmorty.ui.fragments.EpisodeListFragment"
+        android:label="fragment_episode_list"
+        tools:layout="@layout/fragment_episode_list" >
+        <action
+            android:id="@+id/action_episodes_to_episodeFragment"
+            app:destination="@id/episodeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/characterFragment"
+        android:name="com.github.dragon925.rickandmorty.ui.fragments.CharacterFragment"
+        android:label="fragment_character"
+        tools:layout="@layout/fragment_character" >
+        <action
+            android:id="@+id/action_characterFragment_to_episodeFragment"
+            app:destination="@id/episodeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/episodeFragment"
+        android:name="com.github.dragon925.rickandmorty.ui.fragments.EpisodeFragment"
+        android:label="fragment_episode"
+        tools:layout="@layout/fragment_episode" >
+        <action
+            android:id="@+id/action_episodeFragment_to_characterFragment"
+            app:destination="@id/characterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/locationFragment"
+        android:name="com.github.dragon925.rickandmorty.ui.fragments.LocationFragment"
+        android:label="fragment_location"
+        tools:layout="@layout/fragment_location" >
+        <action
+            android:id="@+id/action_locationFragment_to_characterFragment"
+            app:destination="@id/characterFragment" />
+    </fragment>
+</navigation>
