@@ -10,4 +10,7 @@
     <string name="type_is">Type:</string>
     <string name="air_date_is">Air date:</string>
     <string name="episode_is">Episode:</string>
+    <string name="type">Type</string>
+    <string name="air_date">Air date</string>
+    <string name="dimension">Dimension</string>
 </resources>
