@@ -13,4 +13,5 @@
     <string name="type">Тип</string>
     <string name="air_date">Дата выхода</string>
     <string name="dimension">Измерение</string>
+    <string name="loading">Загрузка…</string>
 </resources>

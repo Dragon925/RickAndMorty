@@ -4,15 +4,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import com.github.dragon925.rickandmorty.R
+import com.github.dragon925.rickandmorty.data.repository.EpisodeRepositoryImpl
 import com.github.dragon925.rickandmorty.databinding.FragmentEpisodeListBinding
+import com.github.dragon925.rickandmorty.domain.state.DataState
 import com.github.dragon925.rickandmorty.ui.adapters.ItemListAdapter
 import com.github.dragon925.rickandmorty.ui.models.EpisodeItem
+import com.github.dragon925.rickandmorty.ui.viewmodels.EpisodeItemsState
+import com.github.dragon925.rickandmorty.ui.viewmodels.EpisodeListViewModel
 
 class EpisodeListFragment : Fragment() {
 
     private lateinit var binding: FragmentEpisodeListBinding
     private val adapter = ItemListAdapter()
+    private val viewModel: EpisodeListViewModel by viewModels {
+        EpisodeListViewModel.Factory(
+            EpisodeRepositoryImpl
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,21 +40,24 @@ class EpisodeListFragment : Fragment() {
 
         binding.rvEpisodes.adapter = adapter
 
-        adapter.submitList(listOf(
-            EpisodeItem(
-                0L,
-                "Pilot",
-                "December 2, 2013",
-                "S01E01",
-                19
-            ),
-            EpisodeItem(
-                1L,
-                "Rest and Ricklaxation",
-                "August 27, 2017",
-                "S03E06",
-                19
-            )
-        ))
+        viewModel.episodes.observe(viewLifecycleOwner, ::updateUI)
+
+        binding.srlEpisodes.setOnRefreshListener { viewModel.reload() }
+    }
+
+    private fun updateUI(state: EpisodeItemsState) {
+        when(state) {
+            is DataState.Loading -> Toast.makeText(
+                context, resources.getString(R.string.loading), Toast.LENGTH_SHORT
+            ).show()
+            is DataState.Error -> {
+                Toast.makeText(context, state.error, Toast.LENGTH_LONG).show()
+                binding.srlEpisodes.isRefreshing = false
+            }
+            is DataState.Loaded -> {
+                adapter.submitList(state.data)
+                binding.srlEpisodes.isRefreshing = false
+            }
+        }
     }
 }

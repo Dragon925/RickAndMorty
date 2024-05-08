@@ -13,4 +13,5 @@
     <string name="type">Type</string>
     <string name="air_date">Air date</string>
     <string name="dimension">Dimension</string>
+    <string name="loading">Loading…</string>
 </resources>

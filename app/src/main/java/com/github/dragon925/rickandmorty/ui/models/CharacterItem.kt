@@ -1,7 +1,7 @@
 package com.github.dragon925.rickandmorty.ui.models
 
-import com.github.dragon925.rickandmorty.domain.CharacterStatus
-import com.github.dragon925.rickandmorty.domain.Gender
+import com.github.dragon925.rickandmorty.domain.models.CharacterStatus
+import com.github.dragon925.rickandmorty.domain.models.Gender
 
 data class CharacterItem(
     override val id: Long,
