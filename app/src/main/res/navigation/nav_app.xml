@@ -39,6 +39,10 @@
         <action
             android:id="@+id/action_characterFragment_to_episodeFragment"
             app:destination="@id/episodeFragment" />
+        <argument
+            android:name="character_id"
+            app:argType="long"
+            android:defaultValue="-1L" />
     </fragment>
     <fragment
         android:id="@+id/episodeFragment"
@@ -48,6 +52,10 @@
         <action
             android:id="@+id/action_episodeFragment_to_characterFragment"
             app:destination="@id/characterFragment" />
+        <argument
+            android:name="episode_id"
+            app:argType="long"
+            android:defaultValue="-1L" />
     </fragment>
     <fragment
         android:id="@+id/locationFragment"
@@ -57,5 +65,9 @@
         <action
             android:id="@+id/action_locationFragment_to_characterFragment"
             app:destination="@id/characterFragment" />
+        <argument
+            android:name="location_id"
+            app:argType="long"
+            android:defaultValue="-1L" />
     </fragment>
 </navigation>

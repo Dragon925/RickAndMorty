@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.github.dragon925.rickandmorty.R
 import com.github.dragon925.rickandmorty.data.repository.LocationRepositoryImpl
 import com.github.dragon925.rickandmorty.databinding.FragmentLocationsListBinding
@@ -19,7 +21,7 @@ import com.github.dragon925.rickandmorty.ui.viewmodels.LocationListViewModel
 class LocationListFragment : Fragment() {
 
     private lateinit var binding: FragmentLocationsListBinding
-    private val adapter = ItemListAdapter()
+    private val adapter = ItemListAdapter(this::openLocation)
     private val viewModel: LocationListViewModel by viewModels {
         LocationListViewModel.Factory(
             LocationRepositoryImpl
@@ -59,5 +61,12 @@ class LocationListFragment : Fragment() {
                 binding.srlLocations.isRefreshing = false
             }
         }
+    }
+
+    private fun openLocation(id: Long) {
+        findNavController().navigate(
+            R.id.action_episodes_to_episodeFragment,
+            bundleOf(CharacterFragment.CHARACTER_ID to id)
+        )
     }
 }

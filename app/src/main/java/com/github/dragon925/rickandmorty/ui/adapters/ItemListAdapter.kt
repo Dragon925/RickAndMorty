@@ -1,21 +1,27 @@
 package com.github.dragon925.rickandmorty.ui.adapters
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.github.dragon925.rickandmorty.R
 import com.github.dragon925.rickandmorty.databinding.ItemCharacterBinding
 import com.github.dragon925.rickandmorty.databinding.ItemEpisodeBinding
 import com.github.dragon925.rickandmorty.databinding.ItemLocationBinding
+import com.github.dragon925.rickandmorty.domain.models.CharacterStatus
+import com.github.dragon925.rickandmorty.domain.models.Gender
 import com.github.dragon925.rickandmorty.ui.models.CharacterItem
 import com.github.dragon925.rickandmorty.ui.models.EpisodeItem
 import com.github.dragon925.rickandmorty.ui.models.Item
 import com.github.dragon925.rickandmorty.ui.models.LocationItem
 import java.lang.IllegalArgumentException
 
-class ItemListAdapter() : ListAdapter<Item, ItemListAdapter.ItemViewHolder>(
+class ItemListAdapter(
+    private val openItem: (id: Long) -> Unit
+) : ListAdapter<Item, ItemListAdapter.ItemViewHolder>(
     ItemDiffCallback()
 ) {
 
@@ -64,11 +70,27 @@ class ItemListAdapter() : ListAdapter<Item, ItemListAdapter.ItemViewHolder>(
         override fun bind(item: Item) {
             if (item !is CharacterItem) return
 
+            val resources = binding.root.resources
+            val theme = binding.root.context.theme
+            val color: Int = when(item.status) {
+                CharacterStatus.ALIVE -> resources.getColor(R.color.green_500, theme)
+                CharacterStatus.DEAD -> resources.getColor(R.color.red_500, theme)
+                CharacterStatus.UNKNOWN -> resources.getColor(R.color.grey_500, theme)
+            }
+            val icon: Int = when(item.gender) {
+                Gender.FEMALE -> R.drawable.ic_gender_female_14
+                Gender.MALE -> R.drawable.ic_gender_male_14
+                Gender.GENDERLESS -> 0
+                Gender.UNKNOWN -> 0
+            }
+
             with(binding) {
+                root.setOnClickListener { openItem(item.id) }
                 tvName.text = item.name
-                tvState.text = item.status.name // TODO status name and color
+                tvState.text = item.status.name // TODO status name
                 tvSpecies.text = item.species
-                //TODO gender
+                viewState.backgroundTintList = ColorStateList.valueOf(color)
+                tvSpecies.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, icon, 0)
                 tvOriginLocation.text = item.origin
                 tvLastLocation.text = item.location
                 tvEpisodeCount.text = item.episodes.toString()
@@ -85,6 +107,7 @@ class ItemListAdapter() : ListAdapter<Item, ItemListAdapter.ItemViewHolder>(
             if (item !is EpisodeItem) return
 
             with(binding) {
+                root.setOnClickListener { openItem(item.id) }
                 tvName.text = item.name
                 tvDate.text = item.airDate
                 tvEpisode.text = item.episode
@@ -101,6 +124,7 @@ class ItemListAdapter() : ListAdapter<Item, ItemListAdapter.ItemViewHolder>(
             if (item !is LocationItem) return
 
             with(binding) {
+                root.setOnClickListener { openItem(item.id) }
                 tvName.text = item.name
                 tvType.text = item.type
                 tvDimension.text = item.dimension

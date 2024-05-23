@@ -5,6 +5,7 @@ data class Character(
     val name: String,
     val status: CharacterStatus,
     val species: String,
+    val type: String,
     val gender: Gender,
     val origin: LocationName,
     val location: LocationName,

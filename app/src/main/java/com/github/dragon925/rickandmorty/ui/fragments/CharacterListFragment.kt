@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.github.dragon925.rickandmorty.R
 import com.github.dragon925.rickandmorty.data.repository.CharacterRepositoryImpl
 import com.github.dragon925.rickandmorty.databinding.FragmentCharacterListBinding
@@ -19,7 +21,7 @@ import com.github.dragon925.rickandmorty.ui.viewmodels.CharacterListViewModel
 class CharacterListFragment : Fragment() {
 
     private lateinit var binding: FragmentCharacterListBinding
-    private val adapter = ItemListAdapter()
+    private val adapter = ItemListAdapter(::openCharacter)
     private val viewModel: CharacterListViewModel by viewModels {
         CharacterListViewModel.Factory(
             CharacterRepositoryImpl
@@ -59,5 +61,12 @@ class CharacterListFragment : Fragment() {
                 binding.srlCharacters.isRefreshing = false
             }
         }
+    }
+
+    private fun openCharacter(id: Long) {
+        findNavController().navigate(
+            R.id.action_characters_to_characterFragment,
+            bundleOf(CharacterFragment.CHARACTER_ID to id)
+        )
     }
 }
