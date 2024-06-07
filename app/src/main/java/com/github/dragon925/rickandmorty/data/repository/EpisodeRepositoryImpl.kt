@@ -23,6 +23,12 @@ object EpisodeRepositoryImpl : EpisodeRepository {
         emit(DataState.Loaded(genEpisodes().first()))
     }
 
+    override fun loadEpisodesByIds(ids: List<Long>): Flow<EpisodesState> = flow {
+        emit(DataState.Loading)
+        delay(3000)
+        emit(DataState.Loaded(genEpisodes()))
+    }
+
     private fun genEpisodes() = listOf(
         Episode(
             1L,

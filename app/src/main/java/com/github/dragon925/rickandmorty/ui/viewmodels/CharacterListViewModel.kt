@@ -12,6 +12,8 @@ import com.github.dragon925.rickandmorty.domain.repository.CharactersState
 import com.github.dragon925.rickandmorty.domain.state.DataState
 import com.github.dragon925.rickandmorty.domain.usecase.LoadCharactersUseCase
 import com.github.dragon925.rickandmorty.ui.models.CharacterItem
+import com.github.dragon925.rickandmorty.ui.models.CharacterShortItem
+import com.github.dragon925.rickandmorty.ui.utils.map
 import com.github.dragon925.rickandmorty.ui.utils.toItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,12 +23,9 @@ class CharacterListViewModel(
 ) : ViewModel() {
 
     private val _charcters = MutableLiveData<CharactersState>()
-    val characters: LiveData<CharacterItemsState>
-        get() = _charcters.map { state -> when(state) {
-            is DataState.Loading -> state
-            is DataState.Error -> state
-            is DataState.Loaded -> DataState.Loaded(state.data.map(Character::toItem))
-        } }
+    val characters: LiveData<CharacterItemsState> get() = _charcters.map { state ->
+        state.map { it.map(Character::toItem) }
+    }
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -64,3 +63,4 @@ class CharacterListViewModel(
 }
 
 typealias CharacterItemsState = DataState<List<CharacterItem>>
+typealias CharacterShortItemsState = DataState<List<CharacterShortItem>>

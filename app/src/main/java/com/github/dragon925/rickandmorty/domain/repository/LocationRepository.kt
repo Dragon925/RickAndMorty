@@ -9,6 +9,8 @@ interface LocationRepository {
     fun loadLoacations(): Flow<LocationsState>
 
     fun loadLoacation(id: Long): Flow<LocationState>
+
+    fun loadLocationsByIds(ids: List<Long>): Flow<LocationsState>
 }
 
 typealias LocationsState = DataState<List<Location>>

@@ -12,6 +12,7 @@ import com.github.dragon925.rickandmorty.domain.repository.LocationsState
 import com.github.dragon925.rickandmorty.domain.state.DataState
 import com.github.dragon925.rickandmorty.domain.usecase.LoadLocationsUseCase
 import com.github.dragon925.rickandmorty.ui.models.LocationItem
+import com.github.dragon925.rickandmorty.ui.utils.map
 import com.github.dragon925.rickandmorty.ui.utils.toItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,11 +22,9 @@ class LocationListViewModel(
 ) : ViewModel() {
 
     private val _locations = MutableLiveData<LocationsState>()
-    val locations: LiveData<LocationItemsState> get() = _locations.map { state -> when(state) {
-        is DataState.Loading -> state
-        is DataState.Error -> state
-        is DataState.Loaded -> DataState.Loaded(state.data.map(Location::toItem))
-    } }
+    val locations: LiveData<LocationItemsState> get() = _locations.map { state ->
+        state.map { it.map(Location::toItem) }
+    }
 
     init {
         viewModelScope.launch(Dispatchers.IO) {

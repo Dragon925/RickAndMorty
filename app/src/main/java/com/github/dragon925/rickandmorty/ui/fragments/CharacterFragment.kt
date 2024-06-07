@@ -6,17 +6,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.github.dragon925.rickandmorty.R
 import com.github.dragon925.rickandmorty.data.repository.CharacterRepositoryImpl
+import com.github.dragon925.rickandmorty.data.repository.EpisodeRepositoryImpl
 import com.github.dragon925.rickandmorty.databinding.FragmentCharacterBinding
 import com.github.dragon925.rickandmorty.domain.models.CharacterStatus
 import com.github.dragon925.rickandmorty.domain.models.Gender
 import com.github.dragon925.rickandmorty.domain.repository.CharacterState
+import com.github.dragon925.rickandmorty.domain.repository.EpisodesState
 import com.github.dragon925.rickandmorty.domain.state.DataState
+import com.github.dragon925.rickandmorty.domain.usecase.CharacterWithEpisodesState
+import com.github.dragon925.rickandmorty.ui.adapters.ItemListAdapter
 import com.github.dragon925.rickandmorty.ui.viewmodels.CharacterViewModel
+import com.github.dragon925.rickandmorty.ui.viewmodels.CharacterWithEpisodeItemsState
+import com.github.dragon925.rickandmorty.ui.viewmodels.EpisodeItemsState
+import com.github.dragon925.rickandmorty.ui.viewmodels.EpisodeShortItemsState
 
 class CharacterFragment : Fragment() {
 
@@ -27,9 +35,12 @@ class CharacterFragment : Fragment() {
         characterId = arguments?.getLong(CHARACTER_ID, DEFAULT_ID)
         CharacterViewModel.Factory(
             characterId = characterId ?: DEFAULT_ID,
-            characterRepository = CharacterRepositoryImpl
+            characterRepository = CharacterRepositoryImpl,
+            episodeRepository = EpisodeRepositoryImpl
         )
     }
+
+    private val adapter = ItemListAdapter(::openEpisode)
 
     companion object {
         const val CHARACTER_ID = "character_id"
@@ -58,9 +69,16 @@ class CharacterFragment : Fragment() {
         binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
+
+        binding.rvEpisodes.adapter = adapter
     }
 
-    private fun updateUI(state: CharacterState) {
+    private fun updateUI(state: CharacterWithEpisodeItemsState) {
+        updateCharacterInfoUI(state.first)
+        updateEpisodesUI(state.second)
+    }
+
+    private fun updateCharacterInfoUI(state: CharacterState) {
         when (state) {
             is DataState.Loading -> Toast.makeText(
                 context, resources.getString(R.string.loading), Toast.LENGTH_SHORT
@@ -94,8 +112,29 @@ class CharacterFragment : Fragment() {
                 }
                 tvOriginLocation.text = character.origin.name
                 tvLastLocation.text = character.location.name
-                //TODO list and image
+                //TODO image
             }
         }
+    }
+
+    private fun updateEpisodesUI(state: EpisodeShortItemsState) {
+        when(state) {
+            DataState.Loading -> binding.pbEpisodes.visibility = View.VISIBLE
+            is DataState.Error -> {
+                binding.pbEpisodes.visibility = View.GONE
+                Toast.makeText(context, state.error, Toast.LENGTH_LONG).show()
+            }
+            is DataState.Loaded -> with(binding) {
+                pbEpisodes.visibility = View.GONE
+                adapter.submitList(state.data)
+            }
+        }
+    }
+
+    private fun openEpisode(id: Long) {
+        findNavController().navigate(
+            R.id.action_characterFragment_to_episodeFragment,
+            bundleOf(EpisodeFragment.EPISODE_ID to id)
+        )
     }
 }

@@ -9,6 +9,8 @@ interface EpisodeRepository {
     fun loadEpisodes(): Flow<EpisodesState>
 
     fun loadEpisode(id: Long): Flow<EpisodeState>
+
+    fun loadEpisodesByIds(ids: List<Long>): Flow<EpisodesState>
 }
 
 typealias EpisodesState = DataState<List<Episode>>

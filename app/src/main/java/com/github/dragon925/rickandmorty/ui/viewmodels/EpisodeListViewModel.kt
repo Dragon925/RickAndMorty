@@ -12,6 +12,8 @@ import com.github.dragon925.rickandmorty.domain.repository.EpisodesState
 import com.github.dragon925.rickandmorty.domain.state.DataState
 import com.github.dragon925.rickandmorty.domain.usecase.LoadEpisodesUseCase
 import com.github.dragon925.rickandmorty.ui.models.EpisodeItem
+import com.github.dragon925.rickandmorty.ui.models.EpisodeShortItem
+import com.github.dragon925.rickandmorty.ui.utils.map
 import com.github.dragon925.rickandmorty.ui.utils.toItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,11 +23,9 @@ class EpisodeListViewModel(
 ) : ViewModel() {
 
     private val _episodes = MutableLiveData<EpisodesState>()
-    val episodes: LiveData<EpisodeItemsState> get() = _episodes.map { state -> when(state) {
-        is DataState.Loading -> state
-        is DataState.Error -> state
-        is DataState.Loaded -> DataState.Loaded(state.data.map(Episode::toItem))
-    } }
+    val episodes: LiveData<EpisodeItemsState> get() = _episodes.map { state ->
+        state.map { it.map(Episode::toItem) }
+    }
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -52,3 +52,4 @@ class EpisodeListViewModel(
 }
 
 typealias EpisodeItemsState = DataState<List<EpisodeItem>>
+typealias EpisodeShortItemsState = DataState<List<EpisodeShortItem>>

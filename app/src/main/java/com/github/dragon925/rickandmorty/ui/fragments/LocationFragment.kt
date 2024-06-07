@@ -5,15 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.github.dragon925.rickandmorty.R
+import com.github.dragon925.rickandmorty.data.repository.CharacterRepositoryImpl
 import com.github.dragon925.rickandmorty.data.repository.LocationRepositoryImpl
 import com.github.dragon925.rickandmorty.databinding.FragmentLocationBinding
 import com.github.dragon925.rickandmorty.domain.repository.LocationState
 import com.github.dragon925.rickandmorty.domain.state.DataState
+import com.github.dragon925.rickandmorty.ui.adapters.ItemListAdapter
+import com.github.dragon925.rickandmorty.ui.viewmodels.CharacterShortItemsState
 import com.github.dragon925.rickandmorty.ui.viewmodels.LocationViewModel
+import com.github.dragon925.rickandmorty.ui.viewmodels.LocationWithCharacterItemsState
 
 class LocationFragment : Fragment() {
 
@@ -24,9 +29,12 @@ class LocationFragment : Fragment() {
         locationId = arguments?.getLong(LOCATION_ID, DEFAULT_ID)
         LocationViewModel.Factory(
             locationId = locationId ?: DEFAULT_ID,
-            locationRepository = LocationRepositoryImpl
+            locationRepository = LocationRepositoryImpl,
+            characterRepository = CharacterRepositoryImpl
         )
     }
+
+    private val adapter = ItemListAdapter(::openCharacter)
 
     companion object {
         const val LOCATION_ID = "location_id"
@@ -48,9 +56,16 @@ class LocationFragment : Fragment() {
         viewModel.location.observe(viewLifecycleOwner, ::updateUI)
 
         binding.toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
+
+        binding.rvResidents.adapter = adapter
     }
 
-    private fun updateUI(state: LocationState) {
+    private fun updateUI(state: LocationWithCharacterItemsState) {
+        updateLocationInfo(state.first)
+        updateCharactersUI(state.second)
+    }
+
+    private fun updateLocationInfo(state: LocationState) {
         when(state) {
             is DataState.Loading -> Toast.makeText(
                 context, resources.getString(R.string.loading), Toast.LENGTH_SHORT
@@ -63,8 +78,28 @@ class LocationFragment : Fragment() {
                 tvName.text = episode.name
                 tvType.text = episode.type
                 tvDimension.text = episode.dimension
-                //TODO list
             }
         }
+    }
+
+    private fun updateCharactersUI(state: CharacterShortItemsState) {
+        when(state) {
+            DataState.Loading -> binding.pbCharacters.visibility = View.VISIBLE
+            is DataState.Error -> {
+                binding.pbCharacters.visibility = View.GONE
+                Toast.makeText(context, state.error, Toast.LENGTH_LONG).show()
+            }
+            is DataState.Loaded -> {
+                binding.pbCharacters.visibility = View.GONE
+                adapter.submitList(state.data)
+            }
+        }
+    }
+
+    private fun openCharacter(id: Long) {
+        findNavController().navigate(
+            R.id.action_locationFragment_to_characterFragment,
+            bundleOf(CharacterFragment.CHARACTER_ID to id)
+        )
     }
 }

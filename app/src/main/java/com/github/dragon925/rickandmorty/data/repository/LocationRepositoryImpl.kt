@@ -23,6 +23,12 @@ object LocationRepositoryImpl : LocationRepository {
         emit(DataState.Loaded(genLocations().first()))
     }
 
+    override fun loadLocationsByIds(ids: List<Long>): Flow<LocationsState> = flow {
+        emit(DataState.Loading)
+        delay(3000)
+        emit(DataState.Loaded(genLocations()))
+    }
+
     private fun genLocations() = listOf(
         Location(
             0L,

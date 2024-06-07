@@ -9,6 +9,8 @@ interface CharacterRepository {
     fun loadCharacters(): Flow<CharactersState>
 
     fun loadCharacter(id: Long): Flow<CharacterState>
+
+    fun loadCharactersByIds(ids: List<Long>): Flow<CharactersState>
 }
 
 typealias CharactersState = DataState<List<Character>>

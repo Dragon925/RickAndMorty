@@ -30,6 +30,12 @@ object CharacterRepositoryImpl : CharacterRepository {
         ))
     }
 
+    override fun loadCharactersByIds(ids: List<Long>): Flow<CharactersState> = flow {
+        emit(DataState.Loading)
+        delay(3000)
+        emit(DataState.Loaded<List<Character>>(genCharacters()))
+    }
+
     private fun genCharacters() = listOf(
         Character(
             0L,
