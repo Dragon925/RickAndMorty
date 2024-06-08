@@ -8,5 +8,6 @@ data class CharacterShortItem(
     override val name: String,
     val status: CharacterStatus,
     val species: String,
-    val gender: Gender
+    val gender: Gender,
+    val image: String
 ) : Item

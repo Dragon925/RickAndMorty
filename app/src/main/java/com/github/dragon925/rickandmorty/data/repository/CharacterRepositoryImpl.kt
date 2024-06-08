@@ -46,7 +46,7 @@ object CharacterRepositoryImpl : CharacterRepository {
             Gender.MALE,
             LocationName(0L, "Interdimensional Cable"),
             LocationName(0L, "Interdimensional Cable"),
-            "",
+            "https://rickandmortyapi.com/api/character/avatar/415.jpeg",
             "",
             "",
             List<Long>(1, Int::toLong)
@@ -60,7 +60,7 @@ object CharacterRepositoryImpl : CharacterRepository {
             Gender.FEMALE,
             LocationName(1L, "Earth (Replacement Dimension)"),
             LocationName(1L, "Earth (Replacement Dimension)"),
-            "",
+            "https://rickandmortyapi.com/api/character/avatar/170.jpeg",
             "",
             "",
             List<Long>(1, Int::toLong)

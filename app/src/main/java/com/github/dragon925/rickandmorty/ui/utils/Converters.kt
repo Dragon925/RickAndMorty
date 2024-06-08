@@ -38,7 +38,7 @@ fun Location.toItem() = LocationItem(
     residentIds.size
 )
 
-fun Character.toShortItem() = CharacterShortItem(id, name, status, species, gender)
+fun Character.toShortItem() = CharacterShortItem(id, name, status, species, gender, image)
 
 fun Episode.toShortItem() = EpisodeShortItem(id, name, airDate, episode)
 

@@ -10,6 +10,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.github.dragon925.rickandmorty.R
 import com.github.dragon925.rickandmorty.data.repository.CharacterRepositoryImpl
 import com.github.dragon925.rickandmorty.data.repository.EpisodeRepositoryImpl
@@ -112,7 +113,13 @@ class CharacterFragment : Fragment() {
                 }
                 tvOriginLocation.text = character.origin.name
                 tvLastLocation.text = character.location.name
-                //TODO image
+                if (character.image.isNotBlank()) {
+                    Glide.with(requireContext())
+                        .load(character.image)
+                        .centerCrop()
+                        .placeholder(R.drawable.rectangle)
+                        .into(ivAvatar)
+                }
             }
         }
     }

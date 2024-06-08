@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.github.dragon925.rickandmorty.R
 import com.github.dragon925.rickandmorty.databinding.ItemCharacterBinding
 import com.github.dragon925.rickandmorty.databinding.ItemCharacterShortBinding
@@ -108,7 +109,13 @@ class ItemListAdapter(
                 tvOriginLocation.text = item.origin
                 tvLastLocation.text = item.location
                 tvEpisodeCount.text = item.episodes.toString()
-                //TODO image
+                if (item.image.isNotBlank()) {
+                    Glide.with(root.context)
+                        .load(item.image)
+                        .circleCrop()
+                        .placeholder(R.drawable.oval)
+                        .into(ivAvatar)
+                }
             }
         }
     }
@@ -141,7 +148,13 @@ class ItemListAdapter(
                 tvSpecies.text = item.species
                 viewState.backgroundTintList = ColorStateList.valueOf(color)
                 tvSpecies.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, icon, 0)
-                // TODO image
+                if (item.image.isNotBlank()) {
+                    Glide.with(root.context)
+                        .load(item.image)
+                        .circleCrop()
+                        .placeholder(R.drawable.oval)
+                        .into(ivAvatar)
+                }
             }
         }
     }
