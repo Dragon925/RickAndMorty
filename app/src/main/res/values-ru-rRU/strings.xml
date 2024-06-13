@@ -14,4 +14,7 @@
     <string name="air_date">Дата выхода</string>
     <string name="dimension">Измерение</string>
     <string name="loading">Загрузка…</string>
+    <string name="alive">Жив</string>
+    <string name="dead">Мёртв</string>
+    <string name="unknown">Неизвестно</string>
 </resources>

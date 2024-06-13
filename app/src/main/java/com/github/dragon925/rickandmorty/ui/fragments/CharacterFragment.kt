@@ -101,8 +101,13 @@ class CharacterFragment : Fragment() {
                     Gender.GENDERLESS -> 0
                     Gender.UNKNOWN -> 0
                 }
+                val status = when(character.status) {
+                    CharacterStatus.ALIVE -> resources.getString(R.string.alive)
+                    CharacterStatus.DEAD -> resources.getString(R.string.dead)
+                    CharacterStatus.UNKNOWN -> resources.getString(R.string.unknown)
+                }
                 tvName.text = character.name
-                tvState.text = character.status.name
+                tvState.text = status
                 viewState.backgroundTintList = ColorStateList.valueOf(color)
                 tvSpecies.text = character.species
                 tvSpecies.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, icon, 0)

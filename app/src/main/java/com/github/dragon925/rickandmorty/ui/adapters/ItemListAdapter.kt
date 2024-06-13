@@ -98,11 +98,16 @@ class ItemListAdapter(
                 Gender.GENDERLESS -> 0
                 Gender.UNKNOWN -> 0
             }
+            val status = when(item.status) {
+                CharacterStatus.ALIVE -> resources.getString(R.string.alive)
+                CharacterStatus.DEAD -> resources.getString(R.string.dead)
+                CharacterStatus.UNKNOWN -> resources.getString(R.string.unknown)
+            }
 
             with(binding) {
                 root.setOnClickListener { openItem(item.id) }
                 tvName.text = item.name
-                tvState.text = item.status.name // TODO status name
+                tvState.text = status
                 tvSpecies.text = item.species
                 viewState.backgroundTintList = ColorStateList.valueOf(color)
                 tvSpecies.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, icon, 0)
@@ -140,11 +145,16 @@ class ItemListAdapter(
                 Gender.GENDERLESS -> 0
                 Gender.UNKNOWN -> 0
             }
+            val status = when(item.status) {
+                CharacterStatus.ALIVE -> resources.getString(R.string.alive)
+                CharacterStatus.DEAD -> resources.getString(R.string.dead)
+                CharacterStatus.UNKNOWN -> resources.getString(R.string.unknown)
+            }
 
             with(binding) {
                 root.setOnClickListener { openItem(item.id) }
                 tvName.text = item.name
-                tvState.text = item.status.name // TODO status name
+                tvState.text = status
                 tvSpecies.text = item.species
                 viewState.backgroundTintList = ColorStateList.valueOf(color)
                 tvSpecies.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, icon, 0)

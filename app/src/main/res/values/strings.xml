@@ -14,4 +14,7 @@
     <string name="air_date">Air date</string>
     <string name="dimension">Dimension</string>
     <string name="loading">Loading…</string>
+    <string name="alive">Alive</string>
+    <string name="dead">Dead</string>
+    <string name="unknown">Unknown</string>
 </resources>
