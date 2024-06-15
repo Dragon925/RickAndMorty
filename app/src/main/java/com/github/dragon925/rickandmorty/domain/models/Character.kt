@@ -1,8 +1,8 @@
 package com.github.dragon925.rickandmorty.domain.models
 
 data class Character(
-    val id: Long,
-    val name: String,
+    override val id: Long,
+    override val name: String,
     val status: CharacterStatus,
     val species: String,
     val type: String,
@@ -13,4 +13,4 @@ data class Character(
     val url: String,
     val created: String,
     val episodIds: List<Long>
-)
+) : Model

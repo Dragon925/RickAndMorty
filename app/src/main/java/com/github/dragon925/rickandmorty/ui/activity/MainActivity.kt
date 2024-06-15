@@ -1,19 +1,13 @@
-package com.github.dragon925.rickandmorty
+package com.github.dragon925.rickandmorty.ui.activity
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.github.dragon925.rickandmorty.databinding.ActivityMainBinding
-import com.github.dragon925.rickandmorty.ui.models.CharacterItem
-import com.github.dragon925.rickandmorty.ui.models.EpisodeItem
-import com.github.dragon925.rickandmorty.ui.models.Item
-import com.github.dragon925.rickandmorty.ui.models.LocationItem
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 

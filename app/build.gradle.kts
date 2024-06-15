@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.bundles.lificycle)
 
     implementation(libs.glide)
+    implementation(libs.bundles.retrofit)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
