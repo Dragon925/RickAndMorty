@@ -35,6 +35,19 @@ class LocationListViewModel(
         }
     }
 
+    fun loadNextPage() {
+        val page = (_locations.value as? DataState.Loaded)?.data?.takeIf { it.hasNext } ?: return
+
+        val currentList = page.list.toMutableList()
+        viewModelScope.launch(Dispatchers.IO) {
+            loadLocationsUseCase(page.current + 1).collect { state ->
+                _locations.postValue(
+                    state.map { it.copy(list = currentList.apply { addAll(it.list) }) }
+                )
+            }
+        }
+    }
+
 
     class Factory(
         private val repository: LocationRepository

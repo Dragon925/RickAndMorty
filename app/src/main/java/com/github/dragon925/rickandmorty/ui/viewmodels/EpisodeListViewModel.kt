@@ -36,9 +36,16 @@ class EpisodeListViewModel(
         }
     }
 
-    fun reload() {
+    fun loadNextPage() {
+        val page = (_episodes.value as? DataState.Loaded)?.data?.takeIf { it.hasNext } ?: return
+
+        val currentList = page.list.toMutableList()
         viewModelScope.launch(Dispatchers.IO) {
-            loadEpisodesUseCase().collect{ _episodes.postValue(it) }
+            loadEpisodesUseCase(page.current + 1).collect { state ->
+                _episodes.postValue(
+                    state.map { it.copy(list = currentList.apply { addAll(it.list) }) }
+                )
+            }
         }
     }
 

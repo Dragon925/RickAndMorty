@@ -41,13 +41,15 @@ class CharacterListViewModel(
         }
     }
 
-    fun reload() {
+    fun loadNextPage() {
+        val page = (_charcters.value as? DataState.Loaded)?.data?.takeIf { it.hasNext } ?: return
+
+        val currentList = page.list.toMutableList()
         viewModelScope.launch(Dispatchers.IO) {
-            loadCharactersUseCase().collect {
-//                withContext(Dispatchers.Main) {
-//                    _charcters.value = it
-//                }
-                _charcters.postValue(it)
+            loadCharactersUseCase(page.current + 1).collect { state ->
+                _charcters.postValue(
+                    state.map { it.copy(list = currentList.apply { addAll(it.list) }) }
+                )
             }
         }
     }

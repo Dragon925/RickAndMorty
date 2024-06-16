@@ -16,6 +16,7 @@ import com.github.dragon925.rickandmorty.databinding.FragmentCharacterListBindin
 import com.github.dragon925.rickandmorty.domain.state.DataState
 import com.github.dragon925.rickandmorty.ui.adapters.ItemListAdapter
 import com.github.dragon925.rickandmorty.ui.models.CharacterItem
+import com.github.dragon925.rickandmorty.ui.utils.ListScrollListener
 import com.github.dragon925.rickandmorty.ui.viewmodels.CharacterItemsState
 import com.github.dragon925.rickandmorty.ui.viewmodels.CharacterListViewModel
 
@@ -44,6 +45,7 @@ class CharacterListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.rvCharacters.adapter = adapter
+        binding.rvCharacters.addOnScrollListener(ListScrollListener { viewModel.loadNextPage() })
 
         viewModel.characters.observe(viewLifecycleOwner, ::updateUI)
 

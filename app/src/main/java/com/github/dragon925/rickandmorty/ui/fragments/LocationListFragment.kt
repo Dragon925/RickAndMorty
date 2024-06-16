@@ -16,6 +16,7 @@ import com.github.dragon925.rickandmorty.databinding.FragmentLocationsListBindin
 import com.github.dragon925.rickandmorty.domain.state.DataState
 import com.github.dragon925.rickandmorty.ui.adapters.ItemListAdapter
 import com.github.dragon925.rickandmorty.ui.models.LocationItem
+import com.github.dragon925.rickandmorty.ui.utils.ListScrollListener
 import com.github.dragon925.rickandmorty.ui.viewmodels.LocationItemsState
 import com.github.dragon925.rickandmorty.ui.viewmodels.LocationListViewModel
 
@@ -44,6 +45,7 @@ class LocationListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.rvLocations.adapter = adapter
+        binding.rvLocations.addOnScrollListener(ListScrollListener { viewModel.loadNextPage() })
 
         viewModel.locations.observe(viewLifecycleOwner, ::updateUI)
 

@@ -16,6 +16,7 @@ import com.github.dragon925.rickandmorty.databinding.FragmentEpisodeListBinding
 import com.github.dragon925.rickandmorty.domain.state.DataState
 import com.github.dragon925.rickandmorty.ui.adapters.ItemListAdapter
 import com.github.dragon925.rickandmorty.ui.models.EpisodeItem
+import com.github.dragon925.rickandmorty.ui.utils.ListScrollListener
 import com.github.dragon925.rickandmorty.ui.viewmodels.EpisodeItemsState
 import com.github.dragon925.rickandmorty.ui.viewmodels.EpisodeListViewModel
 
@@ -44,6 +45,7 @@ class EpisodeListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.rvEpisodes.adapter = adapter
+        binding.rvEpisodes.addOnScrollListener(ListScrollListener { viewModel.loadNextPage() })
 
         viewModel.episodes.observe(viewLifecycleOwner, ::updateUI)
 
