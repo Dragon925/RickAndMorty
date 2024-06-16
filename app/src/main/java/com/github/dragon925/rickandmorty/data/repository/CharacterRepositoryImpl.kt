@@ -1,16 +1,13 @@
 package com.github.dragon925.rickandmorty.data.repository
 
-import com.github.dragon925.rickandmorty.domain.models.CharacterStatus
-import com.github.dragon925.rickandmorty.domain.models.Gender
 import com.github.dragon925.rickandmorty.data.sources.SourcesHandler
+import com.github.dragon925.rickandmorty.data.utils.Result
 import com.github.dragon925.rickandmorty.domain.models.Character
-import com.github.dragon925.rickandmorty.domain.models.LocationName
 import com.github.dragon925.rickandmorty.domain.repository.CharacterRepository
 import com.github.dragon925.rickandmorty.domain.repository.CharacterState
 import com.github.dragon925.rickandmorty.domain.repository.CharactersPageState
 import com.github.dragon925.rickandmorty.domain.repository.CharactersState
 import com.github.dragon925.rickandmorty.domain.state.DataState
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -20,54 +17,29 @@ class CharacterRepositoryImpl(
 
     override fun loadCharacters(page: Int?): Flow<CharactersPageState> = flow {
         emit(DataState.Loading)
-        delay(3000)
-        emit(DataState.Loaded<List<Character>>(
-            genCharacters()
-        ))
+        val result = source.loadAll(page)
+        emit(when(result) {
+            is Result.Error -> DataState.Error(result.error)
+            is Result.Success -> DataState.Loaded(result.result)
+        })
     }
 
     override fun loadCharacter(id: Long): Flow<CharacterState> = flow {
         emit(DataState.Loading)
-        delay(3000)
-        emit(DataState.Loaded<Character>(
-            genCharacters().last()
-        ))
+        val result = source.loadById(id.toInt())
+        emit(when(result) {
+            is Result.Error -> DataState.Error(result.error)
+            is Result.Success -> DataState.Loaded(result.result)
+        })
     }
 
     override fun loadCharactersByIds(ids: List<Long>): Flow<CharactersState> = flow {
         emit(DataState.Loading)
-        delay(3000)
-        emit(DataState.Loaded<List<Character>>(genCharacters()))
+        val result = source.loadByIds(ids.map(Long::toInt))
+        emit(when(result) {
+            is Result.Error -> DataState.Error(result.error)
+            is Result.Success -> DataState.Loaded(result.result)
+        })
     }
 
-    private fun genCharacters() = listOf(
-        Character(
-            0L,
-            "Pro trunk people marriage guy",
-            CharacterStatus.ALIVE,
-            "Human",
-            "",
-            Gender.MALE,
-            LocationName(0L, "Interdimensional Cable"),
-            LocationName(0L, "Interdimensional Cable"),
-            "https://rickandmortyapi.com/api/character/avatar/415.jpeg",
-            "",
-            "",
-            List<Long>(1, Int::toLong)
-        ),
-        Character(
-            1L,
-            "Jacqueline",
-            CharacterStatus.ALIVE,
-            "Human",
-            "",
-            Gender.FEMALE,
-            LocationName(1L, "Earth (Replacement Dimension)"),
-            LocationName(1L, "Earth (Replacement Dimension)"),
-            "https://rickandmortyapi.com/api/character/avatar/170.jpeg",
-            "",
-            "",
-            List<Long>(1, Int::toLong)
-        )
-    )
 }
