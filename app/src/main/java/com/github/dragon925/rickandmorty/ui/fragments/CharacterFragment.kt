@@ -85,7 +85,7 @@ class CharacterFragment : Fragment() {
                 context, resources.getString(R.string.loading), Toast.LENGTH_SHORT
             ).show()
             is DataState.Error -> {
-                Toast.makeText(context, state.error, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, state.error.toString(), Toast.LENGTH_LONG).show()
             }
             is DataState.Loaded -> with(binding) {
                 val character = state.data
@@ -134,7 +134,7 @@ class CharacterFragment : Fragment() {
             DataState.Loading -> binding.pbEpisodes.visibility = View.VISIBLE
             is DataState.Error -> {
                 binding.pbEpisodes.visibility = View.GONE
-                Toast.makeText(context, state.error, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, state.error.toString(), Toast.LENGTH_LONG).show()
             }
             is DataState.Loaded -> with(binding) {
                 pbEpisodes.visibility = View.GONE

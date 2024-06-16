@@ -71,7 +71,7 @@ class EpisodeFragment : Fragment() {
                 context, resources.getString(R.string.loading), Toast.LENGTH_SHORT
             ).show()
             is DataState.Error -> {
-                Toast.makeText(context, state.error, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, state.error.toString(), Toast.LENGTH_LONG).show()
             }
             is DataState.Loaded -> with(binding) {
                 val episode = state.data
@@ -87,7 +87,7 @@ class EpisodeFragment : Fragment() {
             DataState.Loading -> binding.pbCharacters.visibility = View.VISIBLE
             is DataState.Error -> {
                 binding.pbCharacters.visibility = View.GONE
-                Toast.makeText(context, state.error, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, state.error.toString(), Toast.LENGTH_LONG).show()
             }
             is DataState.Loaded -> {
                 binding.pbCharacters.visibility = View.GONE

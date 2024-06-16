@@ -42,7 +42,7 @@ fun Character.toShortItem() = CharacterShortItem(id, name, status, species, gend
 
 fun Episode.toShortItem() = EpisodeShortItem(id, name, airDate, episode)
 
-inline fun <T, R> DataState<T>.map(transform: (T) -> R): DataState<R> {
+inline fun <T, E, R> DataState<T, E>.map(transform: (T) -> R): DataState<R, E> {
     return when(this) {
         DataState.Loading -> DataState.Loading
         is DataState.Error -> DataState.Error(this.error)

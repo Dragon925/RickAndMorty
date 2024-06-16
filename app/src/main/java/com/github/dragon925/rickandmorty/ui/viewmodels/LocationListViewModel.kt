@@ -6,9 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import com.github.dragon925.rickandmorty.domain.errors.Error
 import com.github.dragon925.rickandmorty.domain.models.Location
 import com.github.dragon925.rickandmorty.domain.repository.LocationRepository
-import com.github.dragon925.rickandmorty.domain.repository.LocationsState
+import com.github.dragon925.rickandmorty.domain.repository.LocationsPageState
 import com.github.dragon925.rickandmorty.domain.state.DataState
 import com.github.dragon925.rickandmorty.domain.usecase.LoadLocationsUseCase
 import com.github.dragon925.rickandmorty.ui.models.LocationItem
@@ -21,16 +22,12 @@ class LocationListViewModel(
     private val loadLocationsUseCase: LoadLocationsUseCase
 ) : ViewModel() {
 
-    private val _locations = MutableLiveData<LocationsState>()
+    private val _locations = MutableLiveData<LocationsPageState>()
     val locations: LiveData<LocationItemsState> get() = _locations.map { state ->
-        state.map { it.map(Location::toItem) }
+        state.map { it.list.map(Location::toItem) }
     }
 
-    init {
-        viewModelScope.launch(Dispatchers.IO) {
-            loadLocationsUseCase().collect{ _locations.postValue(it) }
-        }
-    }
+    init { reload() }
 
     fun reload() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -51,4 +48,4 @@ class LocationListViewModel(
     }
 }
 
-typealias LocationItemsState = DataState<List<LocationItem>>
+typealias LocationItemsState = DataState<List<LocationItem>, Error>

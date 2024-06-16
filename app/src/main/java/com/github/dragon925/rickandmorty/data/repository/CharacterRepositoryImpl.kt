@@ -2,19 +2,23 @@ package com.github.dragon925.rickandmorty.data.repository
 
 import com.github.dragon925.rickandmorty.domain.models.CharacterStatus
 import com.github.dragon925.rickandmorty.domain.models.Gender
+import com.github.dragon925.rickandmorty.data.sources.SourcesHandler
 import com.github.dragon925.rickandmorty.domain.models.Character
 import com.github.dragon925.rickandmorty.domain.models.LocationName
 import com.github.dragon925.rickandmorty.domain.repository.CharacterRepository
 import com.github.dragon925.rickandmorty.domain.repository.CharacterState
+import com.github.dragon925.rickandmorty.domain.repository.CharactersPageState
 import com.github.dragon925.rickandmorty.domain.repository.CharactersState
 import com.github.dragon925.rickandmorty.domain.state.DataState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-object CharacterRepositoryImpl : CharacterRepository {
+class CharacterRepositoryImpl(
+    private val source: SourcesHandler<Character>
+) : CharacterRepository {
 
-    override fun loadCharacters(): Flow<CharactersState> = flow {
+    override fun loadCharacters(page: Int?): Flow<CharactersPageState> = flow {
         emit(DataState.Loading)
         delay(3000)
         emit(DataState.Loaded<List<Character>>(

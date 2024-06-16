@@ -1,17 +1,21 @@
 package com.github.dragon925.rickandmorty.data.repository
 
+import com.github.dragon925.rickandmorty.data.sources.SourcesHandler
 import com.github.dragon925.rickandmorty.domain.models.Episode
 import com.github.dragon925.rickandmorty.domain.repository.EpisodeRepository
 import com.github.dragon925.rickandmorty.domain.repository.EpisodeState
+import com.github.dragon925.rickandmorty.domain.repository.EpisodesPageState
 import com.github.dragon925.rickandmorty.domain.repository.EpisodesState
 import com.github.dragon925.rickandmorty.domain.state.DataState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-object EpisodeRepositoryImpl : EpisodeRepository {
+class EpisodeRepositoryImpl(
+    private val sources: SourcesHandler<Episode>
+) : EpisodeRepository {
 
-    override fun loadEpisodes(): Flow<EpisodesState> = flow {
+    override fun loadEpisodes(page: Int?): Flow<EpisodesPageState> = flow {
         emit(DataState.Loading)
         delay(3000)
         emit(DataState.Loaded(genEpisodes()))

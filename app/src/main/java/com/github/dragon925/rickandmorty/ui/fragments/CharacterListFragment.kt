@@ -53,7 +53,7 @@ class CharacterListFragment : Fragment() {
                 context, resources.getString(R.string.loading), Toast.LENGTH_SHORT
             ).show()
             is DataState.Error -> {
-                Toast.makeText(context, state.error, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, state.error.toString(), Toast.LENGTH_LONG).show()
                 binding.srlCharacters.isRefreshing = false
             }
             is DataState.Loaded -> {

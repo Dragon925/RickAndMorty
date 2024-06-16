@@ -1,10 +1,10 @@
 package com.github.dragon925.rickandmorty.domain.state
 
-sealed class DataState<out T> {
+sealed class DataState<out T, out E> {
 
-    data object Loading : DataState<Nothing>()
+    data object Loading : DataState<Nothing, Nothing>()
 
-    data class Loaded<T>(val data: T) : DataState<T>()
+    data class Loaded<T>(val data: T) : DataState<T, Nothing>()
 
-    data class Error(val error: String) : DataState<Nothing>()
+    data class Error<E>(val error: E) : DataState<Nothing, E>()
 }

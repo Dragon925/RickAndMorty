@@ -53,7 +53,7 @@ class LocationListFragment : Fragment() {
                 context, resources.getString(R.string.loading), Toast.LENGTH_SHORT
             ).show()
             is DataState.Error -> {
-                Toast.makeText(context, state.error, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, state.error.toString(), Toast.LENGTH_LONG).show()
                 binding.srlLocations.isRefreshing = false
             }
             is DataState.Loaded -> {
@@ -65,8 +65,8 @@ class LocationListFragment : Fragment() {
 
     private fun openLocation(id: Long) {
         findNavController().navigate(
-            R.id.action_episodes_to_episodeFragment,
-            bundleOf(CharacterFragment.CHARACTER_ID to id)
+            R.id.action_locations_to_locationFragment,
+            bundleOf(LocationFragment.LOCATION_ID to id)
         )
     }
 }

@@ -1,17 +1,21 @@
 package com.github.dragon925.rickandmorty.data.repository
 
+import com.github.dragon925.rickandmorty.data.sources.SourcesHandler
 import com.github.dragon925.rickandmorty.domain.models.Location
 import com.github.dragon925.rickandmorty.domain.repository.LocationRepository
 import com.github.dragon925.rickandmorty.domain.repository.LocationState
+import com.github.dragon925.rickandmorty.domain.repository.LocationsPageState
 import com.github.dragon925.rickandmorty.domain.repository.LocationsState
 import com.github.dragon925.rickandmorty.domain.state.DataState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-object LocationRepositoryImpl : LocationRepository {
+class LocationRepositoryImpl(
+    private val source: SourcesHandler<Location>
+) : LocationRepository {
 
-    override fun loadLoacations(): Flow<LocationsState> = flow {
+    override fun loadLoacations(page: Int?): Flow<LocationsPageState> = flow {
         emit(DataState.Loading)
         delay(3000)
         emit(DataState.Loaded(genLocations()))

@@ -53,7 +53,7 @@ class EpisodeListFragment : Fragment() {
                 context, resources.getString(R.string.loading), Toast.LENGTH_SHORT
             ).show()
             is DataState.Error -> {
-                Toast.makeText(context, state.error, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, state.error.toString(), Toast.LENGTH_LONG).show()
                 binding.srlEpisodes.isRefreshing = false
             }
             is DataState.Loaded -> {
@@ -66,7 +66,7 @@ class EpisodeListFragment : Fragment() {
     private fun openEpisode(id: Long) {
         findNavController().navigate(
             R.id.action_episodes_to_episodeFragment,
-            bundleOf(CharacterFragment.CHARACTER_ID to id)
+            bundleOf(EpisodeFragment.EPISODE_ID to id)
         )
     }
 }

@@ -6,9 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import com.github.dragon925.rickandmorty.domain.errors.Error
 import com.github.dragon925.rickandmorty.domain.models.Character
 import com.github.dragon925.rickandmorty.domain.repository.CharacterRepository
-import com.github.dragon925.rickandmorty.domain.repository.CharactersState
+import com.github.dragon925.rickandmorty.domain.repository.CharactersPageState
 import com.github.dragon925.rickandmorty.domain.state.DataState
 import com.github.dragon925.rickandmorty.domain.usecase.LoadCharactersUseCase
 import com.github.dragon925.rickandmorty.ui.models.CharacterItem
@@ -22,12 +23,14 @@ class CharacterListViewModel(
     private val loadCharactersUseCase: LoadCharactersUseCase
 ) : ViewModel() {
 
-    private val _charcters = MutableLiveData<CharactersState>()
+    private val _charcters = MutableLiveData<CharactersPageState>()
     val characters: LiveData<CharacterItemsState> get() = _charcters.map { state ->
-        state.map { it.map(Character::toItem) }
+        state.map { it.list.map(Character::toItem) }
     }
 
-    init {
+    init { reload() }
+
+    fun reload() {
         viewModelScope.launch(Dispatchers.IO) {
             loadCharactersUseCase().collect {
 //                withContext(Dispatchers.Main) {
@@ -62,5 +65,5 @@ class CharacterListViewModel(
 
 }
 
-typealias CharacterItemsState = DataState<List<CharacterItem>>
-typealias CharacterShortItemsState = DataState<List<CharacterShortItem>>
+typealias CharacterItemsState = DataState<List<CharacterItem>, Error>
+typealias CharacterShortItemsState = DataState<List<CharacterShortItem>, Error>

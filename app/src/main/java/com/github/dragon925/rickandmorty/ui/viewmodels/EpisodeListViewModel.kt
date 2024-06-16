@@ -6,9 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import com.github.dragon925.rickandmorty.domain.errors.Error
 import com.github.dragon925.rickandmorty.domain.models.Episode
 import com.github.dragon925.rickandmorty.domain.repository.EpisodeRepository
-import com.github.dragon925.rickandmorty.domain.repository.EpisodesState
+import com.github.dragon925.rickandmorty.domain.repository.EpisodesPageState
 import com.github.dragon925.rickandmorty.domain.state.DataState
 import com.github.dragon925.rickandmorty.domain.usecase.LoadEpisodesUseCase
 import com.github.dragon925.rickandmorty.ui.models.EpisodeItem
@@ -22,12 +23,14 @@ class EpisodeListViewModel(
     private val loadEpisodesUseCase: LoadEpisodesUseCase
 ) : ViewModel() {
 
-    private val _episodes = MutableLiveData<EpisodesState>()
+    private val _episodes = MutableLiveData<EpisodesPageState>()
     val episodes: LiveData<EpisodeItemsState> get() = _episodes.map { state ->
-        state.map { it.map(Episode::toItem) }
+        state.map { it.list.map(Episode::toItem) }
     }
 
-    init {
+    init { reload() }
+
+    fun reload() {
         viewModelScope.launch(Dispatchers.IO) {
             loadEpisodesUseCase().collect{ _episodes.postValue(it) }
         }
@@ -51,5 +54,5 @@ class EpisodeListViewModel(
     }
 }
 
-typealias EpisodeItemsState = DataState<List<EpisodeItem>>
-typealias EpisodeShortItemsState = DataState<List<EpisodeShortItem>>
+typealias EpisodeItemsState = DataState<List<EpisodeItem>, Error>
+typealias EpisodeShortItemsState = DataState<List<EpisodeShortItem>, Error>
