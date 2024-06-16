@@ -9,9 +9,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.github.dragon925.rickandmorty.App
 import com.github.dragon925.rickandmorty.R
-import com.github.dragon925.rickandmorty.data.repository.CharacterRepositoryImpl
-import com.github.dragon925.rickandmorty.data.repository.EpisodeRepositoryImpl
+import com.github.dragon925.rickandmorty.data.repository.RepositoryHandler
 import com.github.dragon925.rickandmorty.databinding.FragmentEpisodeBinding
 import com.github.dragon925.rickandmorty.domain.repository.EpisodeState
 import com.github.dragon925.rickandmorty.domain.state.DataState
@@ -27,10 +27,11 @@ class EpisodeFragment : Fragment() {
 
     private val viewModel: EpisodeViewModel by viewModels {
         episodeId = arguments?.getLong(EPISODE_ID, DEFAULT_ID)
+        val app = requireActivity().application as App
         EpisodeViewModel.Factory(
             episodeId = episodeId ?: DEFAULT_ID,
-            episodeRepository = EpisodeRepositoryImpl,
-            characterRepository = CharacterRepositoryImpl
+            episodeRepository = RepositoryHandler.getEpisodeRepository(app.episodeApi),
+            characterRepository = RepositoryHandler.getCharacterRepository(app.characterApi)
         )
     }
 

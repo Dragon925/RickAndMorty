@@ -11,20 +11,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.github.dragon925.rickandmorty.App
 import com.github.dragon925.rickandmorty.R
-import com.github.dragon925.rickandmorty.data.repository.CharacterRepositoryImpl
-import com.github.dragon925.rickandmorty.data.repository.EpisodeRepositoryImpl
+import com.github.dragon925.rickandmorty.data.repository.RepositoryHandler
 import com.github.dragon925.rickandmorty.databinding.FragmentCharacterBinding
 import com.github.dragon925.rickandmorty.domain.models.CharacterStatus
 import com.github.dragon925.rickandmorty.domain.models.Gender
 import com.github.dragon925.rickandmorty.domain.repository.CharacterState
-import com.github.dragon925.rickandmorty.domain.repository.EpisodesState
 import com.github.dragon925.rickandmorty.domain.state.DataState
-import com.github.dragon925.rickandmorty.domain.usecase.CharacterWithEpisodesState
 import com.github.dragon925.rickandmorty.ui.adapters.ItemListAdapter
 import com.github.dragon925.rickandmorty.ui.viewmodels.CharacterViewModel
 import com.github.dragon925.rickandmorty.ui.viewmodels.CharacterWithEpisodeItemsState
-import com.github.dragon925.rickandmorty.ui.viewmodels.EpisodeItemsState
 import com.github.dragon925.rickandmorty.ui.viewmodels.EpisodeShortItemsState
 
 class CharacterFragment : Fragment() {
@@ -34,10 +31,11 @@ class CharacterFragment : Fragment() {
 
     private val viewModel: CharacterViewModel by viewModels {
         characterId = arguments?.getLong(CHARACTER_ID, DEFAULT_ID)
+        val app = requireActivity().application as App
         CharacterViewModel.Factory(
             characterId = characterId ?: DEFAULT_ID,
-            characterRepository = CharacterRepositoryImpl,
-            episodeRepository = EpisodeRepositoryImpl
+            characterRepository = RepositoryHandler.getCharacterRepository(app.characterApi),
+            episodeRepository = RepositoryHandler.getEpisodeRepository(app.episodeApi)
         )
     }
 

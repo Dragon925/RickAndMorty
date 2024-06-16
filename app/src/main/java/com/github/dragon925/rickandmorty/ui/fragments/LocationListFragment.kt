@@ -9,8 +9,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.github.dragon925.rickandmorty.App
 import com.github.dragon925.rickandmorty.R
-import com.github.dragon925.rickandmorty.data.repository.LocationRepositoryImpl
+import com.github.dragon925.rickandmorty.data.repository.RepositoryHandler
 import com.github.dragon925.rickandmorty.databinding.FragmentLocationsListBinding
 import com.github.dragon925.rickandmorty.domain.state.DataState
 import com.github.dragon925.rickandmorty.ui.adapters.ItemListAdapter
@@ -24,7 +25,9 @@ class LocationListFragment : Fragment() {
     private val adapter = ItemListAdapter(this::openLocation)
     private val viewModel: LocationListViewModel by viewModels {
         LocationListViewModel.Factory(
-            LocationRepositoryImpl
+            RepositoryHandler.getLocationRepository(
+                (requireActivity().application as App).locationApi
+            )
         )
     }
 

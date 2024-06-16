@@ -9,8 +9,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.github.dragon925.rickandmorty.App
 import com.github.dragon925.rickandmorty.R
-import com.github.dragon925.rickandmorty.data.repository.EpisodeRepositoryImpl
+import com.github.dragon925.rickandmorty.data.repository.RepositoryHandler
 import com.github.dragon925.rickandmorty.databinding.FragmentEpisodeListBinding
 import com.github.dragon925.rickandmorty.domain.state.DataState
 import com.github.dragon925.rickandmorty.ui.adapters.ItemListAdapter
@@ -24,7 +25,9 @@ class EpisodeListFragment : Fragment() {
     private val adapter = ItemListAdapter(this::openEpisode)
     private val viewModel: EpisodeListViewModel by viewModels {
         EpisodeListViewModel.Factory(
-            EpisodeRepositoryImpl
+            RepositoryHandler.getEpisodeRepository(
+                (requireActivity().application as App).episodeApi
+            )
         )
     }
 

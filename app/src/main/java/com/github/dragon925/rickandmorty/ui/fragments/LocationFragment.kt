@@ -9,9 +9,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.github.dragon925.rickandmorty.App
 import com.github.dragon925.rickandmorty.R
-import com.github.dragon925.rickandmorty.data.repository.CharacterRepositoryImpl
-import com.github.dragon925.rickandmorty.data.repository.LocationRepositoryImpl
+import com.github.dragon925.rickandmorty.data.repository.RepositoryHandler
 import com.github.dragon925.rickandmorty.databinding.FragmentLocationBinding
 import com.github.dragon925.rickandmorty.domain.repository.LocationState
 import com.github.dragon925.rickandmorty.domain.state.DataState
@@ -27,10 +27,11 @@ class LocationFragment : Fragment() {
 
     private val viewModel: LocationViewModel by viewModels {
         locationId = arguments?.getLong(LOCATION_ID, DEFAULT_ID)
+        val app = requireActivity().application as App
         LocationViewModel.Factory(
             locationId = locationId ?: DEFAULT_ID,
-            locationRepository = LocationRepositoryImpl,
-            characterRepository = CharacterRepositoryImpl
+            locationRepository = RepositoryHandler.getLocationRepository(app.locationApi),
+            characterRepository = RepositoryHandler.getCharacterRepository(app.characterApi)
         )
     }
 
