@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingVertical="@dimen/spacing_4"
+    android:paddingHorizontal="@dimen/spacing_6"
+    android:background="@drawable/bg_bottom_sheet"
+    tools:context=".ui.dialog.LocationFilterBottomSheet">
+
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_4">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/type" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_dimension"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_4">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_dimension"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/dimension" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        style="?attr/materialButtonStyle"
+        android:id="@+id/btn_apply_filters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_8"
+        android:text="@string/apply_filters"/>
+
+    <Button
+        style="?attr/materialIconButtonFilledTonalStyle"
+        android:id="@+id/btn_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_4"
+        android:text="@string/cancel"/>
+
+</LinearLayout>

@@ -17,4 +17,10 @@
     <string name="alive">Жив</string>
     <string name="dead">Мёртв</string>
     <string name="unknown">Неизвестно</string>
+    <string name="status">Статус</string>
+    <string name="gender">Пол</string>
+    <string name="genderless">Бесполый</string>
+    <string name="species">Вид</string>
+    <string name="apply_filters">Применить фильтры</string>
+    <string name="cancel">Отмена</string>
 </resources>

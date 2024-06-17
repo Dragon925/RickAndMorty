@@ -17,4 +17,11 @@
     <string name="alive">Alive</string>
     <string name="dead">Dead</string>
     <string name="unknown">Unknown</string>
+    <string name="status">Status</string>
+    <string name="gender">Gender</string>
+    <string name="genderless">Genderless</string>
+    <string name="species">Species</string>
+    <string name="apply_filters">Apply filters</string>
+    <string name="cancel">Cancel</string>
+    <string name="episode">Episode</string>
 </resources>
