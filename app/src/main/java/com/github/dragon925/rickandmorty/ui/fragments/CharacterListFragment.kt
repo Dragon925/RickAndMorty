@@ -1,6 +1,7 @@
 package com.github.dragon925.rickandmorty.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,10 @@ import com.github.dragon925.rickandmorty.R
 import com.github.dragon925.rickandmorty.data.repository.RepositoryHandler
 import com.github.dragon925.rickandmorty.databinding.FragmentCharacterListBinding
 import com.github.dragon925.rickandmorty.domain.state.DataState
+import com.github.dragon925.rickandmorty.domain.utils.FilterBuilder
+import com.github.dragon925.rickandmorty.domain.utils.Filters
 import com.github.dragon925.rickandmorty.ui.adapters.ItemListAdapter
+import com.github.dragon925.rickandmorty.ui.dialog.CharacterFilterBottomSheet
 import com.github.dragon925.rickandmorty.ui.models.CharacterItem
 import com.github.dragon925.rickandmorty.ui.utils.ListScrollListener
 import com.github.dragon925.rickandmorty.ui.viewmodels.CharacterItemsState
@@ -50,6 +54,15 @@ class CharacterListFragment : Fragment() {
         viewModel.characters.observe(viewLifecycleOwner, ::updateUI)
 
         binding.srlCharacters.setOnRefreshListener { viewModel.reload() }
+
+        binding.ibFilter.setOnClickListener {
+            val bottomSheet = CharacterFilterBottomSheet(::loadByFilter)
+            bottomSheet.show(parentFragmentManager, CharacterFilterBottomSheet.TAG)
+        }
+    }
+
+    private fun loadByFilter(filterBuilder: FilterBuilder<Filters.Character>) {
+        Log.d("CharacterListFragment-filters", "${filterBuilder.build().toString()}")
     }
 
     private fun updateUI(state: CharacterItemsState) {

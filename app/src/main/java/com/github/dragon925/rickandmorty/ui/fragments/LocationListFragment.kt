@@ -1,6 +1,7 @@
 package com.github.dragon925.rickandmorty.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,10 @@ import com.github.dragon925.rickandmorty.R
 import com.github.dragon925.rickandmorty.data.repository.RepositoryHandler
 import com.github.dragon925.rickandmorty.databinding.FragmentLocationsListBinding
 import com.github.dragon925.rickandmorty.domain.state.DataState
+import com.github.dragon925.rickandmorty.domain.utils.FilterBuilder
+import com.github.dragon925.rickandmorty.domain.utils.Filters
 import com.github.dragon925.rickandmorty.ui.adapters.ItemListAdapter
+import com.github.dragon925.rickandmorty.ui.dialog.LocationFilterBottomSheet
 import com.github.dragon925.rickandmorty.ui.models.LocationItem
 import com.github.dragon925.rickandmorty.ui.utils.ListScrollListener
 import com.github.dragon925.rickandmorty.ui.viewmodels.LocationItemsState
@@ -50,6 +54,15 @@ class LocationListFragment : Fragment() {
         viewModel.locations.observe(viewLifecycleOwner, ::updateUI)
 
         binding.srlLocations.setOnRefreshListener { viewModel.reload() }
+
+        binding.ibFilter.setOnClickListener {
+            val bottomSheet = LocationFilterBottomSheet(::loadByFilter)
+            bottomSheet.show(parentFragmentManager, LocationFilterBottomSheet.TAG)
+        }
+    }
+
+    private fun loadByFilter(filterBuilder: FilterBuilder<Filters.Location>) {
+        Log.d("LocationListFragment-filters", "${filterBuilder.build().toString()}")
     }
 
     private fun updateUI(state: LocationItemsState) {
