@@ -8,16 +8,22 @@ import com.github.dragon925.rickandmorty.domain.repository.EpisodeState
 import com.github.dragon925.rickandmorty.domain.repository.EpisodesPageState
 import com.github.dragon925.rickandmorty.domain.repository.EpisodesState
 import com.github.dragon925.rickandmorty.domain.state.DataState
+import com.github.dragon925.rickandmorty.domain.utils.Filters
+import com.github.dragon925.rickandmorty.domain.utils.toMap
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.util.EnumMap
 
 class EpisodeRepositoryImpl(
     private val sources: SourcesHandler<Episode>
 ) : EpisodeRepository {
 
-    override fun loadEpisodes(page: Int?): Flow<EpisodesPageState> = flow {
+    override fun loadEpisodes(
+        page: Int?,
+        filters: EnumMap<Filters.Episode, String>
+    ): Flow<EpisodesPageState> = flow {
         emit(DataState.Loading)
-        val result = sources.loadAll(page)
+        val result = sources.loadAll(page, filters.toMap { it.name.toString().lowercase() })
         emit(when(result) {
             is Result.Error -> DataState.Error(result.error)
             is Result.Success -> DataState.Loaded(result.result)

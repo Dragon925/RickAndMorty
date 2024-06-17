@@ -8,16 +8,22 @@ import com.github.dragon925.rickandmorty.domain.repository.LocationState
 import com.github.dragon925.rickandmorty.domain.repository.LocationsPageState
 import com.github.dragon925.rickandmorty.domain.repository.LocationsState
 import com.github.dragon925.rickandmorty.domain.state.DataState
+import com.github.dragon925.rickandmorty.domain.utils.Filters
+import com.github.dragon925.rickandmorty.domain.utils.toMap
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.util.EnumMap
 
 class LocationRepositoryImpl(
     private val source: SourcesHandler<Location>
 ) : LocationRepository {
 
-    override fun loadLoacations(page: Int?): Flow<LocationsPageState> = flow {
+    override fun loadLoacations(
+        page: Int?,
+        filters: EnumMap<Filters.Location, String>
+    ): Flow<LocationsPageState> = flow {
         emit(DataState.Loading)
-        val result = source.loadAll(page)
+        val result = source.loadAll(page, filters.toMap { it.name.toString().lowercase() })
         emit(when(result) {
             is Result.Error -> DataState.Error(result.error)
             is Result.Success -> DataState.Loaded(result.result)
