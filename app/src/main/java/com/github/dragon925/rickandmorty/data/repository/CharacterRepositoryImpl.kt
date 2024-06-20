@@ -20,10 +20,13 @@ class CharacterRepositoryImpl(
 
     override fun loadCharacters(
         page: Int?,
-        filters: EnumMap<Filters.Character, String>
+        filters: EnumMap<Filters.Character, String>?
     ): Flow<CharactersPageState> = flow {
         emit(DataState.Loading)
-        val result = source.loadAll(page, filters.toMap { it.name.toString().lowercase() })
+        val result = source.loadAll(
+            page,
+            filters?.toMap { it.name.toString().lowercase() } ?: emptyMap()
+        )
         emit(when(result) {
             is Result.Error -> DataState.Error(result.error)
             is Result.Success -> DataState.Loaded(result.result)

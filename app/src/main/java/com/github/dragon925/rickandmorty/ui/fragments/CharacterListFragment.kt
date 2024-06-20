@@ -62,7 +62,7 @@ class CharacterListFragment : Fragment() {
     }
 
     private fun loadByFilter(filterBuilder: FilterBuilder<Filters.Character>) {
-        Log.d("CharacterListFragment-filters", "${filterBuilder.build().toString()}")
+        Log.d("CharacterListFragment-filters", "${filterBuilder.build()}")
     }
 
     private fun updateUI(state: CharacterItemsState) {

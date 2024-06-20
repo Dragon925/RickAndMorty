@@ -62,7 +62,7 @@ class LocationListFragment : Fragment() {
     }
 
     private fun loadByFilter(filterBuilder: FilterBuilder<Filters.Location>) {
-        Log.d("LocationListFragment-filters", "${filterBuilder.build().toString()}")
+        Log.d("LocationListFragment-filters", "${filterBuilder.build()}")
     }
 
     private fun updateUI(state: LocationItemsState) {

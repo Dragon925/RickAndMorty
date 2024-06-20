@@ -70,8 +70,7 @@ class RemoteSource<T: Model, K: Convertable<T>>(
 
     override suspend fun loadByIds(ids: List<Int>): Result<List<T>, Error> = try {
         if (ids.size == 1) {
-            val result = loadById(ids.first())
-            when (result) {
+            when (val result = loadById(ids.first())) {
                 is Result.Error -> Result.Error(result.error)
                 is Result.Success -> Result.Success(listOf(result.result))
             }

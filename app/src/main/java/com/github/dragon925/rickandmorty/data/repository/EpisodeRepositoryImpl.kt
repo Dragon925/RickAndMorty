@@ -20,10 +20,13 @@ class EpisodeRepositoryImpl(
 
     override fun loadEpisodes(
         page: Int?,
-        filters: EnumMap<Filters.Episode, String>
+        filters: EnumMap<Filters.Episode, String>?
     ): Flow<EpisodesPageState> = flow {
         emit(DataState.Loading)
-        val result = sources.loadAll(page, filters.toMap { it.name.toString().lowercase() })
+        val result = sources.loadAll(
+            page,
+            filters?.toMap { it.name.toString().lowercase() } ?: emptyMap()
+        )
         emit(when(result) {
             is Result.Error -> DataState.Error(result.error)
             is Result.Success -> DataState.Loaded(result.result)

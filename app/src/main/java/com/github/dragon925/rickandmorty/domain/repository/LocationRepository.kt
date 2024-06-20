@@ -5,7 +5,6 @@ import com.github.dragon925.rickandmorty.domain.models.Location
 import com.github.dragon925.rickandmorty.domain.models.Page
 import com.github.dragon925.rickandmorty.domain.state.DataState
 import com.github.dragon925.rickandmorty.domain.utils.Filters
-import com.github.dragon925.rickandmorty.domain.utils.emptyEnumMap
 import kotlinx.coroutines.flow.Flow
 import java.util.EnumMap
 
@@ -13,7 +12,7 @@ interface LocationRepository {
 
     fun loadLoacations(
         page: Int? = null,
-        filters: EnumMap<Filters.Location, String> = emptyEnumMap()
+        filters: EnumMap<Filters.Location, String>? = null
     ): Flow<LocationsPageState>
 
     fun loadLoacation(id: Long): Flow<LocationState>

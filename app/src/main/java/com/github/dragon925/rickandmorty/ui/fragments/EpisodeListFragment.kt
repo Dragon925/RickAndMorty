@@ -62,7 +62,7 @@ class EpisodeListFragment : Fragment() {
     }
 
     private fun loadByFilter(filterBuilder: FilterBuilder<Filters.Episode>) {
-        Log.d("EpisodeListFragment-filters", "${filterBuilder.build().toString()}")
+        Log.d("EpisodeListFragment-filters", "${filterBuilder.build()}")
     }
 
     private fun updateUI(state: EpisodeItemsState) {
