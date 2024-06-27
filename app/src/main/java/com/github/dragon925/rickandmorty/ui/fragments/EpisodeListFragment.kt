@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.github.dragon925.rickandmorty.App
@@ -15,6 +16,7 @@ import com.github.dragon925.rickandmorty.R
 import com.github.dragon925.rickandmorty.data.repository.RepositoryHandler
 import com.github.dragon925.rickandmorty.databinding.FragmentEpisodeListBinding
 import com.github.dragon925.rickandmorty.domain.state.DataState
+import com.github.dragon925.rickandmorty.domain.utils.EpisodeFilter
 import com.github.dragon925.rickandmorty.domain.utils.FilterBuilder
 import com.github.dragon925.rickandmorty.domain.utils.Filters
 import com.github.dragon925.rickandmorty.ui.adapters.ItemListAdapter
@@ -34,6 +36,24 @@ class EpisodeListFragment : Fragment() {
                 (requireActivity().application as App).episodeApi
             )
         )
+    }
+
+    private var filter = EpisodeFilter()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setFragmentResultListener(EpisodeFilterBottomSheet.RESULT_KEY) { key, bundle ->
+            val filter = EpisodeFilter()
+            bundle.getString("${key}_${Filters.Episode.NAME.name}")?.let {
+                filter.name = it
+            }
+            bundle.getString("${key}_${Filters.Episode.EPISODE.name}")?.let {
+                filter.episode = it
+            }
+            // TODO send filter
+            this.filter = filter
+            Log.d("EpisodeListFragment-filters", "${filter.build()}")
+        }
     }
 
     override fun onCreateView(
@@ -56,13 +76,15 @@ class EpisodeListFragment : Fragment() {
         binding.srlEpisodes.setOnRefreshListener { viewModel.reload() }
 
         binding.ibFilter.setOnClickListener {
-            val bottomSheet = EpisodeFilterBottomSheet(::loadByFilter)
-            bottomSheet.show(parentFragmentManager, EpisodeFilterBottomSheet.TAG)
+            val bottomSheet = EpisodeFilterBottomSheet()
+            val tag = EpisodeFilterBottomSheet.TAG
+            val bundle = bundleOf()
+            filter.build().forEach { key, value ->
+                bundle.putString("${tag}_${key.name}", value)
+            }
+            bottomSheet.arguments = bundle
+            bottomSheet.show(parentFragmentManager, tag)
         }
-    }
-
-    private fun loadByFilter(filterBuilder: FilterBuilder<Filters.Episode>) {
-        Log.d("EpisodeListFragment-filters", "${filterBuilder.build()}")
     }
 
     private fun updateUI(state: EpisodeItemsState) {

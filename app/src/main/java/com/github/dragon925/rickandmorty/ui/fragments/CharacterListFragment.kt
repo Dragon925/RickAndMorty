@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.github.dragon925.rickandmorty.App
@@ -15,6 +16,7 @@ import com.github.dragon925.rickandmorty.R
 import com.github.dragon925.rickandmorty.data.repository.RepositoryHandler
 import com.github.dragon925.rickandmorty.databinding.FragmentCharacterListBinding
 import com.github.dragon925.rickandmorty.domain.state.DataState
+import com.github.dragon925.rickandmorty.domain.utils.CharacterFilter
 import com.github.dragon925.rickandmorty.domain.utils.FilterBuilder
 import com.github.dragon925.rickandmorty.domain.utils.Filters
 import com.github.dragon925.rickandmorty.ui.adapters.ItemListAdapter
@@ -34,6 +36,33 @@ class CharacterListFragment : Fragment() {
                 (requireActivity().application as App).characterApi
             )
         )
+    }
+
+    private var filter = CharacterFilter()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setFragmentResultListener(CharacterFilterBottomSheet.RESULT_KEY) { key, bundle ->
+            val filter = CharacterFilter()
+            bundle.getString("${key}_${Filters.Character.NAME.name}")?.let {
+                filter.name = it
+            }
+            bundle.getString("${key}_${Filters.Character.STATUS.name}")?.let {
+                filter.status = it
+            }
+            bundle.getString("${key}_${Filters.Character.SPECIES.name}")?.let {
+                filter.species = it
+            }
+            bundle.getString("${key}_${Filters.Character.TYPE.name}")?.let {
+                filter.type = it
+            }
+            bundle.getString("${key}_${Filters.Character.GENDER.name}")?.let {
+                filter.gender = it
+            }
+            // TODO send filter
+            this.filter = filter
+            Log.d("CharacterListFragment-filters", "${filter.build()}")
+        }
     }
 
     override fun onCreateView(
@@ -56,13 +85,15 @@ class CharacterListFragment : Fragment() {
         binding.srlCharacters.setOnRefreshListener { viewModel.reload() }
 
         binding.ibFilter.setOnClickListener {
-            val bottomSheet = CharacterFilterBottomSheet(::loadByFilter)
-            bottomSheet.show(parentFragmentManager, CharacterFilterBottomSheet.TAG)
+            val bottomSheet = CharacterFilterBottomSheet()
+            val tag = CharacterFilterBottomSheet.TAG
+            val bundle = bundleOf()
+            filter.build().forEach { key, value ->
+                bundle.putString("${tag}_${key.name}", value)
+            }
+            bottomSheet.arguments = bundle
+            bottomSheet.show(parentFragmentManager, tag)
         }
-    }
-
-    private fun loadByFilter(filterBuilder: FilterBuilder<Filters.Character>) {
-        Log.d("CharacterListFragment-filters", "${filterBuilder.build()}")
     }
 
     private fun updateUI(state: CharacterItemsState) {

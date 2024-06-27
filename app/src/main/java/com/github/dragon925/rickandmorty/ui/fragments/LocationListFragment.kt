@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.github.dragon925.rickandmorty.App
@@ -17,6 +18,7 @@ import com.github.dragon925.rickandmorty.databinding.FragmentLocationsListBindin
 import com.github.dragon925.rickandmorty.domain.state.DataState
 import com.github.dragon925.rickandmorty.domain.utils.FilterBuilder
 import com.github.dragon925.rickandmorty.domain.utils.Filters
+import com.github.dragon925.rickandmorty.domain.utils.LocationFilter
 import com.github.dragon925.rickandmorty.ui.adapters.ItemListAdapter
 import com.github.dragon925.rickandmorty.ui.dialog.LocationFilterBottomSheet
 import com.github.dragon925.rickandmorty.ui.models.LocationItem
@@ -34,6 +36,27 @@ class LocationListFragment : Fragment() {
                 (requireActivity().application as App).locationApi
             )
         )
+    }
+
+    private var filter = LocationFilter()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setFragmentResultListener(LocationFilterBottomSheet.RESULT_KEY) { key, bundle ->
+            val filter = LocationFilter()
+            bundle.getString("${key}_${Filters.Location.NAME.name}")?.let {
+                filter.name = it
+            }
+            bundle.getString("${key}_${Filters.Location.TYPE.name}")?.let {
+                filter.type = it
+            }
+            bundle.getString("${key}_${Filters.Location.DIMENSION.name}")?.let {
+                filter.dimension = it
+            }
+            // TODO send filter
+            this.filter = filter
+            Log.d("LocationListFragment-filters", "${filter.build()}")
+        }
     }
 
     override fun onCreateView(
@@ -56,13 +79,15 @@ class LocationListFragment : Fragment() {
         binding.srlLocations.setOnRefreshListener { viewModel.reload() }
 
         binding.ibFilter.setOnClickListener {
-            val bottomSheet = LocationFilterBottomSheet(::loadByFilter)
-            bottomSheet.show(parentFragmentManager, LocationFilterBottomSheet.TAG)
+            val bottomSheet = LocationFilterBottomSheet()
+            val tag = LocationFilterBottomSheet.TAG
+            val bundle = bundleOf()
+            filter.build().forEach { key, value ->
+                bundle.putString("${tag}_${key.name}", value)
+            }
+            bottomSheet.arguments = bundle
+            bottomSheet.show(parentFragmentManager, tag)
         }
-    }
-
-    private fun loadByFilter(filterBuilder: FilterBuilder<Filters.Location>) {
-        Log.d("LocationListFragment-filters", "${filterBuilder.build()}")
     }
 
     private fun updateUI(state: LocationItemsState) {
